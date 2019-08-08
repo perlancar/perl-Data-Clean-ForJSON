@@ -1,3 +1,9 @@
+0.392   2019-08-08  Released-By: PERLANCAR; Urgency: medium
+
+	- Rename module Data::Clean::JSON -> Data::Clean::ForJSON to be clearer.
+	  Rename dist from Data-Clean-JSON to Data-Clean-ForJSON.
+
+
 0.391   2018-10-09  Released-By: PERLANCAR
 
 	- No functional changes.
