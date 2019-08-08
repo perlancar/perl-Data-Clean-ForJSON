@@ -7,12 +7,12 @@ use Test::Exception;
 use Test::More 0.98;
 use Test::Needs;
 
-use Data::Clean::JSON qw(clean_json_in_place clone_and_clean_json);
+use Data::Clean::ForJSON qw(clean_json_in_place clone_and_clean_json);
 use DateTime;
 use JSON::PP;
 use Scalar::Util qw(blessed);
 
-my $c = Data::Clean::JSON->get_cleanser;
+my $c = Data::Clean::ForJSON->get_cleanser;
 my $data;
 my $cdata;
 
@@ -71,7 +71,7 @@ subtest "non-oo functions" => sub {
 };
 
 subtest "Clone::PP" => sub {
-    my $c = Data::Clean::JSON->new(
+    my $c = Data::Clean::ForJSON->new(
         '!clone_func' => 'Clone::PP::clone',
     );
     my $json = JSON::PP::decode_json('[true, false]');
@@ -82,7 +82,7 @@ subtest "Clone::PP" => sub {
 subtest "Clone" => sub {
     test_needs "Clone";
 
-    my $c = Data::Clean::JSON->new(
+    my $c = Data::Clean::ForJSON->new(
         '!clone_func' => 'Clone::clone',
     );
     my $json = JSON::PP::decode_json('[true, false]');
@@ -94,7 +94,7 @@ subtest "Data::Clone" => sub {
     plan skip_all => "Data::Clone currently cannot clone JSON::PP::Boolean objects";
     test_needs "Data::Clone";
 
-    my $c = Data::Clean::JSON->new(
+    my $c = Data::Clean::ForJSON->new(
         '!clone_func' => 'Data::Clone::clone',
     );
     my $json = JSON::PP::decode_json('[true, false]');
@@ -105,7 +105,7 @@ subtest "Data::Clone" => sub {
 subtest "Sereal::Dclone" => sub {
     test_needs "Sereal::Dclone";
 
-    my $c = Data::Clean::JSON->new(
+    my $c = Data::Clean::ForJSON->new(
         '!clone_func' => 'Sereal::Dclone::dclone',
     );
     my $json = JSON::PP::decode_json('[true, false]');

@@ -1,4 +1,4 @@
-package Data::Clean::JSON;
+package Data::Clean::ForJSON;
 
 # DATE
 # VERSION
@@ -57,8 +57,8 @@ sub clone_and_clean_json {
 
 =head1 SYNOPSIS
 
- use Data::Clean::JSON;
- my $cleanser = Data::Clean::JSON->get_cleanser;
+ use Data::Clean::ForJSON;
+ my $cleanser = Data::Clean::ForJSON->get_cleanser;
  my $data     = { code=>sub {}, re=>qr/abc/i };
 
  my $cleaned;
@@ -75,12 +75,12 @@ sub clone_and_clean_json {
 
 Functional shortcuts:
 
- use Data::Clean::JSON qw(clean_json_in_place clone_and_clean_json);
+ use Data::Clean::ForJSON qw(clean_json_in_place clone_and_clean_json);
 
- # equivalent to Data::Clean::JSON->get_cleanser->clean_in_place($data)
+ # equivalent to Data::Clean::ForJSON->get_cleanser->clean_in_place($data)
  clean_json_in_place($data);
 
- # equivalent to Data::Clean::JSON->get_cleanser->clone_and_clean($data)
+ # equivalent to Data::Clean::ForJSON->get_cleanser->clone_and_clean($data)
  $cleaned = clone_and_clean_json($data);
 
 
@@ -108,7 +108,7 @@ it will be replaced with "CIRCULAR".
 
 To change the default limit, customize your cleanser object:
 
- $cleanser = Data::Clean::JSON->new(
+ $cleanser = Data::Clean::ForJSON->new(
      -circular => ["clone", 4],
  );
 
@@ -138,8 +138,8 @@ If C<LOG_CLEANSER_CODE> environment is set to true, the generated cleanser code
 will be logged using L<Log::get> at trace level. You can see it, e.g. using
 L<Log::ger::Output::Screen>:
 
- % LOG_CLEANSER_CODE=1 perl -MLog::ger::Output=Screen -MLog::ger::Level::trace -MData::Clean::JSON \
-   -e'$c=Data::Clean::JSON->new; ...'
+ % LOG_CLEANSER_CODE=1 perl -MLog::ger::Output=Screen -MLog::ger::Level::trace -MData::Clean::ForJSON \
+   -e'$c=Data::Clean::ForJSON->new; ...'
 
 
 =head1 FUNCTIONS
@@ -150,13 +150,13 @@ None of the functions are exported by default.
 
 A shortcut for:
 
- Data::Clean::JSON->get_cleanser->clean_in_place($data)
+ Data::Clean::ForJSON->get_cleanser->clean_in_place($data)
 
 =head2 clone_and_clean_json($data) => $cleaned
 
 A shortcut for:
 
- $cleaned = Data::Clean::JSON->get_cleanser->clone_and_clean($data)
+ $cleaned = Data::Clean::ForJSON->get_cleanser->clone_and_clean($data)
 
 
 =head1 METHODS
@@ -193,14 +193,14 @@ So that the data can be used for other stuffs, like outputting to YAML, etc.
 =head2 Why is it slow?
 
 If you use C<new()> instead of C<get_cleanser()>, make sure that you do not
-construct the Data::Clean::JSON object repeatedly, as the constructor generates
-the cleanser code first using eval(). A short benchmark (run on my slow Atom
-netbook):
+construct the Data::Clean::ForJSON object repeatedly, as the constructor
+generates the cleanser code first using eval(). A short benchmark (run on my
+slow Atom netbook):
 
- % bench -MData::Clean::JSON -b'$c=Data::Clean::JSON->new' \
-     'Data::Clean::JSON->new->clone_and_clean([1..100])' \
+ % bench -MData::Clean::ForJSON -b'$c=Data::Clean::ForJSON->new' \
+     'Data::Clean::ForJSON->new->clone_and_clean([1..100])' \
      '$c->clone_and_clean([1..100])'
- Benchmarking sub { Data::Clean::JSON->new->clean_in_place([1..100]) }, sub { $c->clean_in_place([1..100]) } ...
+ Benchmarking sub { Data::Clean::ForJSON->new->clean_in_place([1..100]) }, sub { $c->clean_in_place([1..100]) } ...
  a: 302 calls (291.3/s), 1.037s (3.433ms/call)
  b: 7043 calls (4996/s), 1.410s (0.200ms/call)
  Fastest is b (17.15x a)
@@ -209,15 +209,15 @@ Second, you can turn off some checks if you are sure you will not be getting bad
 data. For example, if you know that your input will not contain circular
 references, you can turn off circular detection:
 
- $cleanser = Data::Clean::JSON->new(-circular => 0);
+ $cleanser = Data::Clean::ForJSON->new(-circular => 0);
 
 Benchmark:
 
- $ perl -MData::Clean::JSON -MBench -E '
+ $ perl -MData::Clean::ForJSON -MBench -E '
    $data = [[1],[2],[3],[4],[5]];
    bench {
-       circ   => sub { state $c = Data::Clean::JSON->new;               $c->clone_and_clean($data) },
-       nocirc => sub { state $c = Data::Clean::JSON->new(-circular=>0); $c->clone_and_clean($data) }
+       circ   => sub { state $c = Data::Clean::ForJSON->new;               $c->clone_and_clean($data) },
+       nocirc => sub { state $c = Data::Clean::ForJSON->new(-circular=>0); $c->clone_and_clean($data) }
    }, -1'
  circ: 9456 calls (9425/s), 1.003s (0.106ms/call)
  nocirc: 13161 calls (12885/s), 1.021s (0.0776ms/call)
@@ -241,9 +241,10 @@ L<Data::Visitor::Callback>
 
 L<Data::Abridge> is similar in goal, which is to let Perl data structures (which
 might contain stuffs unsupported in JSON) be encodeable to JSON. But unlike
-Data::Clean::JSON, it has some (currently) non-configurable rules, like changing
-a coderef with a hash C<< {CODE=>'\&main::__ANON__'} >> or a scalar ref with C<<
-{SCALAR=>'value'} >> and so on. Note that the abridging process is similarly
-unidirectional (you cannot convert back the original Perl data structure).
+Data::Clean::ForJSON, it has some (currently) non-configurable rules, like
+changing a coderef with a hash C<< {CODE=>'\&main::__ANON__'} >> or a scalar ref
+with C<< {SCALAR=>'value'} >> and so on. Note that the abridging process is
+similarly unidirectional (you cannot convert back the original Perl data
+structure).
 
 =cut
