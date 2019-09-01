@@ -8,9 +8,16 @@ use strict;
 use warnings;
 
 use parent qw(Data::Clean);
+use vars qw($creating_singleton);
 
 sub new {
     my ($class, %opts) = @_;
+
+    if (!%opts && !$creating_singleton) {
+        warn "You are creating a new ".__PACKAGE__." object without customizing options. ".
+            "You probably want to call get_cleanser() yet to get a singleton instead?";
+    }
+
     $opts{"JSON::PP::Boolean"} //= ['deref_scalar_one_or_zero'];
 
     $class->SUPER::new(%opts);
@@ -18,6 +25,7 @@ sub new {
 
 sub get_cleanser {
     my $class = shift;
+    local $creating_singleton = 1;
     state $singleton = $class->new;
     $singleton;
 }
