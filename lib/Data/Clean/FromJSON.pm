@@ -11,9 +11,7 @@ use parent qw(Data::Clean);
 
 sub new {
     my ($class, %opts) = @_;
-    $opts{"JSON::PP::Boolean"} //= ['one_or_zero'];
-    $opts{"JSON::XS::Boolean"} //= ['one_or_zero']; # this does not exist though
-    $opts{"Cpanel::JSON::XS::Boolean"} //= ['one_or_zero']; # this does not exist though
+    $opts{"JSON::PP::Boolean"} //= ['deref_scalar_one_or_zero'];
 
     $class->SUPER::new(%opts);
 }
@@ -38,8 +36,14 @@ sub get_cleanser {
 
 =head1 DESCRIPTION
 
-This class can convert L<JSON::PP::Boolean> (or C<JSON::XS::Boolean>) objects to
-1/0 values.
+This class can "clean" data that comes from a JSON encoder. Currently what it
+does is:
+
+=over
+
+=item * Convert boolean objects to simple Perl values
+
+=back
 
 
 =head1 METHODS
