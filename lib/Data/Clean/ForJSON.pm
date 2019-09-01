@@ -135,7 +135,7 @@ invoke callback for each data item. This module, on the other hand, generates a
 cleanser code using eval(), using native Perl for() loops.
 
 If C<LOG_CLEANSER_CODE> environment is set to true, the generated cleanser code
-will be logged using L<Log::get> at trace level. You can see it, e.g. using
+will be logged using L<Log::ger> at trace level. You can see it, e.g. using
 L<Log::ger::Output::Screen>:
 
  % LOG_CLEANSER_CODE=1 perl -MLog::ger::Output=Screen -MLog::ger::Level::trace -MData::Clean::ForJSON \
