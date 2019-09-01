@@ -1,3 +1,11 @@
+0.394   2019-09-01  Released-By: PERLANCAR; Urgency: low
+
+	- No functional changes.
+
+	- [ux] Warn when user calls new() without customizing option;
+	  recommend her to use get_cleanser() instead.
+
+
 0.393   2019-09-01  Released-By: PERLANCAR; Urgency: medium
 
 	- [Incompatible change] No longer convert JSON::PP::Boolean objects to
