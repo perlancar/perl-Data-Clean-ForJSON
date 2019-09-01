@@ -18,9 +18,6 @@ our @EXPORT_OK = qw(
 sub new {
     my ($class, %opts) = @_;
 
-    # from FromJSON
-    $opts{"JSON::PP::Boolean"} //= ['one_or_zero'];
-
     $opts{DateTime}  //= [call_method => 'epoch'];
     $opts{'Time::Moment'} //= [call_method => 'epoch'];
     $opts{'Math::BigInt'} //= [call_method => 'bstr'];
