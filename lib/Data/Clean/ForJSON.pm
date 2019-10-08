@@ -8,6 +8,7 @@ use strict;
 use warnings;
 
 use parent qw(Data::Clean);
+use vars qw($creating_singleton);
 
 use Exporter qw(import);
 our @EXPORT_OK = qw(
@@ -17,6 +18,11 @@ our @EXPORT_OK = qw(
 
 sub new {
     my ($class, %opts) = @_;
+
+    if (!%opts && !$creating_singleton) {
+        warn "You are creating a new ".__PACKAGE__." object without customizing options. ".
+            "You probably want to call get_cleanser() yet to get a singleton instead?";
+    }
 
     $opts{DateTime}  //= [call_method => 'epoch'];
     $opts{'Time::Moment'} //= [call_method => 'epoch'];
@@ -35,6 +41,7 @@ sub new {
 
 sub get_cleanser {
     my $class = shift;
+    local $creating_singleton = 1;
     state $singleton = $class->new;
     $singleton;
 }
@@ -176,7 +183,10 @@ Clean $data. Clone $data first.
 
 =head1 ENVIRONMENT
 
-LOG_CLEANSER_CODE
+=head2 LOG_CLEANSER_CODE
+
+Bool. Can be set to true to log cleanser code using L<Log::ger> at C<trace>
+level.
 
 
 =head1 FAQ
