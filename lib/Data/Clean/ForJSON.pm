@@ -247,4 +247,7 @@ with C<< {SCALAR=>'value'} >> and so on. Note that the abridging process is
 similarly unidirectional (you cannot convert back the original Perl data
 structure).
 
+Some benchmarks in L<Bencher::Scenarios::DataCleansing>. You can see that
+Data::Clean::ForJSON can be several times faster than, say, Data::Rmap.
+
 =cut
