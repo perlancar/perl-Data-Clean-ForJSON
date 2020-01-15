@@ -272,7 +272,7 @@
          - No functional changes. Revert back some code.
 
 
-0.08     2013-10-14 (SHARYANTO) - Get well soon, dad!
+0.08     2013-10-14  Released-By: SHARYANTO; Note: Get well soon, dad!
 
          - Handle JSON::{XS,PP}::Boolean objects (convert to 1/0).
 
@@ -327,3 +327,4 @@
 0.01     2012-08-03  Released-By: SHARYANTO
 
          - First release. Incomplete and no tests yet.
+
