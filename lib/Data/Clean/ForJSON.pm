@@ -1,8 +1,5 @@
 package Data::Clean::ForJSON;
 
-# DATE
-# VERSION
-
 use 5.010001;
 use strict;
 use warnings;
@@ -11,6 +8,12 @@ use parent qw(Data::Clean);
 use vars qw($creating_singleton);
 
 use Exporter qw(import);
+
+# AUTHORITY
+# DATE
+# DIST
+# VERSION
+
 our @EXPORT_OK = qw(
                        clean_json_in_place
                        clone_and_clean_json
